@@ -3,8 +3,8 @@ import ProductCard from "./ProductCard";
 
 const App = () => {
   return (
-    <main className="container-fluid text-center">
-      <h1>Tu Enlace.Net</h1>
+    <main className="container-fluid text-center bg-dark">
+      <h1 className="text-white">Tu Enlace.Net</h1>
       <ProductCard />
     </main>
   );

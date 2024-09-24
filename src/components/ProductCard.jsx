@@ -16,14 +16,14 @@ const ProductCard = () => {
       .then((res) => res.json())
       .then((data) => {
         setProducts(data); // Store all products
-        setDisplayProducts(data.slice(0, 5)); // Display the first 5 products
+        setDisplayProducts(data.slice(0, 8)); // Display the first 8 products
       });
   }, []);
 
   useEffect(() => {
     // Update the displayed products when the page changes
-    const startIndex = (page - 1) * 5;
-    const newProducts = products.slice(0, startIndex + 5);
+    const startIndex = (page - 1) * 8;
+    const newProducts = products.slice(0, startIndex + 8);
     setDisplayProducts(newProducts);
   }, [page, products]);
 
@@ -56,7 +56,7 @@ const ProductCard = () => {
           onSubmit={handleSubmit}
           onChange={handleOnChange}
         />
-        <button className="btn btn-outline-success" type="submit">
+        <button className="btn btn-primary" type="submit">
           Search
         </button>
       </form>
@@ -64,8 +64,8 @@ const ProductCard = () => {
         {filteredByName.map((product) => (
           <div
             key={product.id}
-            className="card my-3 mx-2 py-5 px-3"
-            style={{ width: "18rem" }}
+            className="card my-3 mx-2 py-5 px-3 bg-light"
+            style={{ width: "21rem" }}
           >
             <img
               src={product.image}
