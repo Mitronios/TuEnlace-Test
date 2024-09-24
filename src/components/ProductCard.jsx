@@ -1,27 +1,50 @@
 import { useEffect, useState } from "react";
+import MoreProducts from "./MoreProducts";
 
-const FAKE_STORE_URL = "https://fakestoreapi.com/products?limit=10";
+const FAKE_STORE_URL = "https://fakestoreapi.com/products";
 
 const ProductCard = () => {
-  const [products, setProducts] = useState([]);
-  const [searchByTitle, setSearchByTitle] = useState("");
+  // States
+  const [products, setProducts] = useState([]); //For fetching
+  const [searchByTitle, setSearchByTitle] = useState(""); //For Searching
+  const [displayProducts, setDisplayProducts] = useState([]); // To limit products displayed
+  const [page, setPage] = useState(1); // to manage the page
 
+  //Fetching products
   useEffect(() => {
     fetch(FAKE_STORE_URL)
       .then((res) => res.json())
-      .then((data) => setProducts(data));
+      .then((data) => {
+        setProducts(data); // Store all products
+        setDisplayProducts(data.slice(0, 5)); // Display the first 5 products
+      });
   }, []);
 
+  useEffect(() => {
+    // Update the displayed products when the page changes
+    const startIndex = (page - 1) * 5;
+    const newProducts = products.slice(0, startIndex + 5);
+    setDisplayProducts(newProducts);
+  }, [page, products]);
+
+  // Filtering products
   const filteredByName = searchByTitle
-    ? products.filter((product) =>
+    ? displayProducts.filter((product) =>
         product.title.toLowerCase().includes(searchByTitle.toLowerCase())
       )
-    : products;
+    : displayProducts;
 
+  // Handling events
   const handleSubmit = (e) => e.preventDefault();
+
   const handleOnChange = (e) => {
     setSearchByTitle(e.target.value);
   };
+
+  const handleMoreProducts = () => {
+    setPage(page + 1);
+  };
+
   return (
     <>
       <form className="d-flex">
@@ -59,6 +82,7 @@ const ProductCard = () => {
           </div>
         ))}
       </section>
+      <MoreProducts onClick={handleMoreProducts} />
     </>
   );
 };
