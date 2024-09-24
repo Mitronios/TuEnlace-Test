@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import MoreProducts from "./MoreProducts";
+import Search from "./Search";
 
 const FAKE_STORE_URL = "https://fakestoreapi.com/products";
 
@@ -47,19 +48,12 @@ const ProductCard = () => {
 
   return (
     <>
-      <form className="d-flex">
-        <input
-          className="form-control me-2"
-          type="search"
-          placeholder="Search by Name"
-          value={searchByTitle}
-          onSubmit={handleSubmit}
-          onChange={handleOnChange}
-        />
-        <button className="btn btn-primary" type="submit">
-          Search
-        </button>
-      </form>
+      <Search
+        value={searchByTitle}
+        onSubmit={handleSubmit}
+        onChange={handleOnChange}
+      />
+
       <section className="d-flex flex-wrap justify-content-center">
         {filteredByName.map((product) => (
           <div
@@ -82,6 +76,7 @@ const ProductCard = () => {
           </div>
         ))}
       </section>
+
       <MoreProducts onClick={handleMoreProducts} />
     </>
   );
